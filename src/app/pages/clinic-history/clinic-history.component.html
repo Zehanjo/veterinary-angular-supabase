@@ -1,0 +1,298 @@
+<!-- List of History Clinic DONE -->
+<div class="" *ngIf="!details" [@inOutAnimation]>
+  <div class="header">
+    <div>
+      <h1 class="page-header">
+        Historial Clínico
+      </h1>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-backdrop="false">
+        Registrar Historial Clínico
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body table-responsive tablecontainer">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nro</th>
+          <th>Paciente</th>
+          <th>Edad</th>
+          <th>Fecha de Creación</th>
+          <th>Propietario</th>
+          <th>Dirección</th>
+          <th>Internamiento</th>
+          <!-- <th>Detalle</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ch of clinicHistory; let i=index">
+          <td>{{i+1}}</td>
+          <td><img src="{{ch.photo}}" alt="" height="36">{{ch.name}}</td>
+          <td>{{ch.age}}</td>
+          <td>{{ch.created_at}}</td>
+          <td>{{ch.owner_firstname +" "+ ch.owner_lastname}}</td>
+          <td>{{ch.address}}</td>
+          <td><button class="btn btn-primary" (click)="internment(ch)">Ver detalles</button></td>
+          <!-- <td><button class="btn btn"><i class="bi bi-eye-fill"></i></button></td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add Clinic History -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Historial Clínico</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="display: flex;gap: 15px;">
+        <select class="form-select" (change)="selectionPatient($event)">
+          <option selected>Seleccione Paciente</option>
+          <option *ngFor="let patient  of patientList" value={{patient.id}}>{{patient.name}}</option>
+        </select>
+        <select class="form-select" (change)="selectionPetOwner($event)">
+          <option selected>Seleccione Dueño</option>
+          <option *ngFor="let petOwner  of petOwnerList" value={{petOwner.id}}>{{petOwner.firstname +" "+petOwner.lastname}}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="clinicHistoryRegister()" data-bs-dismiss="modal">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- List of internment DONE -->
+<div class="" *ngIf="details" [@inOutAnimation] >
+  <div class="header">
+    <div>
+      <h2 class="page-header">
+        Datos del Historial Clinico
+      </h2>
+    </div>
+    <div>
+      <button type="button" class="btn btn" ><i class="bi bi-arrow-left-short" style="font-size: 24px;" (click)="show()"> Atras</i></button>
+    </div>
+  </div>
+  <div class="interment_body">
+    <div class="card-body table-responsive tablecontainer">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nro</th>
+            <th>Paciente</th>
+            <th>Edad</th>
+            <th>Fecha de Creación</th>
+            <th>Propietario</th>
+            <th>Dirección</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{1}}</td>
+            <td><img src="{{clinicHistoryByOne.photo}}" alt="" height="36">{{clinicHistoryByOne.name}}</td>
+            <td>{{clinicHistoryByOne.age}}</td>
+            <td>{{clinicHistoryByOne.created_at}}</td>
+            <td>{{clinicHistoryByOne.owner_firstname +" "+ clinicHistoryByOne.owner_lastname}}</td>
+            <td>{{clinicHistoryByOne.address}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div [ngSwitch]="ngDataSwitch">
+      <div class="header">
+        <div style="display: flex; flex-direction: row;">
+
+          <button class="btn btn" (click)="changeSwitch(1)">
+            <h3 class="page-header">
+              Historial de Internamiento
+            </h3>
+          </button>
+          <button class="btn btn" (click)="changeSwitch(2)">
+            <h3 class="page-header">
+              Historial de Alergias
+            </h3>
+          </button>
+          <!-- <button class="btn btn" (click)="ngDataSwitch==3">
+            <h2 class="page-header">
+              Historial de Vacunas
+            </h2>
+          </button> -->
+
+        </div>
+        <div *ngSwitchCase="1">
+          <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInternment" data-backdrop="false">
+            Registrar Internamiento
+          </button>
+        </div>
+        <div *ngSwitchCase="2">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInternment" data-backdrop="false">
+            Registrar Alergias
+          </button>
+        </div>
+      </div>
+      <div class="card-body table-responsive tablecontainer">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nro</th>
+              <th>Razon</th>
+              <th>Fecha de Ingreso</th>
+              <th>Fecha de Salida</th>
+              <th>Peso</th>
+              <th>Temperatura</th>
+              <th>Diagnostico</th>
+              <th>Comentario</th>
+              <th>Pago Total</th>
+              <th>Opcion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let internment of internmentByID; let i=index">
+              <td>{{i+1}}</td>
+              <td>{{internment.reason}}</td>
+              <td>{{internment.date_admission}}</td>
+              <td>{{internment.date_departure}}</td>
+              <td>{{internment.weight}}</td>
+              <td>{{internment.temperature}}</td>
+              <td>{{internment.diagnosis}}</td>
+              <td>{{internment.comment}}</td>
+              <td>{{internment.full_payment}}</td>
+              <td>
+                <button class="btn btn" data-bs-toggle="modal" data-bs-target="#updateInternment" (click)="loadInternments(internment)"><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn" data-bs-toggle="modal" data-bs-target="#deleteInternment" (click)="loadInternments(internment)"><i class="bi bi-trash-fill"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+
+<!-- Register Interment -->
+<div class="modal fade " id="addInternment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Internamiento</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mdcontainer" style="display: flex;flex-direction: column;gap:10px">
+        <div class="" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+          <label class="form-label">Motivo
+            <input type="text" [(ngModel)]="internmentAdd.reason" class="form-control" placeholder="razon">
+          </label>
+          <label class="form-label">Fecha de Registro
+            <input type="date" min="1950-01-01" max="2023-07-24" [(ngModel)]="internmentAdd.date_admission" class="form-control" placeholder="Fecha de Nacimiento">
+          </label>
+          <label class="form-label">Fecha de Salida
+            <input type="date" min="1950-01-01" max="2023-07-24" [(ngModel)]="internmentAdd.date_departure" class="form-control" placeholder="Fecha de Nacimiento">
+          </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+            <label class="form-label">Peso
+              <input type="text" [(ngModel)]="internmentAdd.weight" class="form-control" placeholder="Peso">
+            </label>
+            <label class="form-label">Temperatura
+              <input type="text" [(ngModel)]="internmentAdd.temperature" class="form-control" placeholder="Temperatura">
+            </label>
+            <label class="form-label">Diagnostico
+              <input type="text" [(ngModel)]="internmentAdd.diagnosis" class="form-control" placeholder="Diagnostico">
+            </label>
+        </div>
+        <div class="testr_container" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+            <label class="form-label">Comentario
+              <input type="text" [(ngModel)]="internmentAdd.comment" class="form-control" placeholder="Comentario">
+            </label>
+            <label class="form-label">Pago Total
+              <input type="text" [(ngModel)]="internmentAdd.full_payment" class="form-control" placeholder="Total a pagar">
+            </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal" (click)="internmentRegister()" >Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Update Patient -->
+<div class="modal fade " id="updateInternment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Internamiento</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mdcontainer" style="display: flex;flex-direction: column;gap:10px">
+        <div class="" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+          <label class="form-label">Motivo
+            <input type="text" [(ngModel)]="loadInternment.reason" class="form-control" placeholder="razon">
+          </label>
+          <label class="form-label">Fecha de Registro
+            <input type="date" min="1950-01-01" max="2023-07-24" [(ngModel)]="loadInternment.date_admission" class="form-control" placeholder="Fecha de Nacimiento">
+          </label>
+          <label class="form-label">Fecha de Salida
+            <input type="date" min="1950-01-01" max="2023-07-24" [(ngModel)]="loadInternment.date_departure" class="form-control" placeholder="Fecha de Nacimiento">
+          </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+            <label class="form-label">Peso
+              <input type="text" [(ngModel)]="loadInternment.weight" class="form-control" placeholder="Peso">
+            </label>
+            <label class="form-label">Temperatura
+              <input type="text" [(ngModel)]="loadInternment.temperature" class="form-control" placeholder="Temperatura">
+            </label>
+            <label class="form-label">Diagnostico
+              <input type="text" [(ngModel)]="loadInternment.diagnosis" class="form-control" placeholder="Diagnostico">
+            </label>
+        </div>
+        <div class="testr_container" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+            <label class="form-label">Comentario
+              <input type="text" [(ngModel)]="loadInternment.comment" class="form-control" placeholder="Comentario">
+            </label>
+            <label class="form-label">Pago Total
+              <input type="text" [(ngModel)]="loadInternment.full_payment" class="form-control" placeholder="Total a pagar">
+            </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal" (click)="internmentEdit()" >Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Internment -->
+<div class="modal fade" id="deleteInternment" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Eliminar Internamiento</h4>
+          </div>
+          <div class="modal-body">
+              <label>¿Estás seguro de eliminar el registro?</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" (click)="deleteInternment()" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+          </div>
+      </div>
+  </div>
+</div>

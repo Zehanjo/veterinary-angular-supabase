@@ -1,0 +1,35 @@
+<!-- <div class="card-body table-responsive tablecontainer">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nro</th>
+        <th>Razon</th>
+        <th>Fecha de Ingreso</th>
+        <th>Fecha de Salida</th>
+        <th>Peso</th>
+        <th>Temperatura</th>
+        <th>Diagnostico</th>
+        <th>Comentario</th>
+        <th>Pago Total</th>
+        <th>Opcion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let internment of internmentByID; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{internment.reason}}</td>
+        <td>{{internment.date_admission}}</td>
+        <td>{{internment.date_departure}}</td>
+        <td>{{internment.weight}}</td>
+        <td>{{internment.temperature}}</td>
+        <td>{{internment.diagnosis}}</td>
+        <td>{{internment.comment}}</td>
+        <td>{{internment.full_payment}}</td>
+        <td>
+          <button class="btn btn" data-bs-toggle="modal" data-bs-target="#updateInternment" (click)="loadInternments(internment)"><i class="bi bi-pencil-square"></i></button>
+          <button class="btn btn" data-bs-toggle="modal" data-bs-target="#deleteInternment" (click)="loadInternments(internment)"><i class="bi bi-trash-fill"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->

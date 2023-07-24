@@ -1,0 +1,171 @@
+<!-- List of History Clinic DONE -->
+<div class="" >
+  <div class="header">
+    <div>
+      <h1 class="page-header">
+        Mascota
+      </h1>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPatient" data-backdrop="false">
+        Registrar Mascota
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body table-responsive tablecontainer">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nro</th>
+          <th>Nombre</th>
+          <th>Sexo</th>
+          <th>Fecha de Nacimiento</th>
+          <th>Edad</th>
+          <th>Peso</th>
+          <th>Tamaño</th>
+          <th>Raza</th>
+          <th>Opcion</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let patient of patientList; let i=index">
+          <td>{{i+1}}</td>
+          <td><img src="{{patient.photo}}" alt="" height="36">{{patient.name}}</td>
+          <td>{{patient.sex}}</td>
+          <td>{{patient.birthdate}}</td>
+          <td>{{patient.age}}</td>
+          <td>{{patient.weight}}</td>
+          <td>{{patient.tamano}}</td>
+          <td>{{patient.breed}}</td>
+          <td>
+            <!-- <i class="bi bi-pencil-square"></i>
+            <i class="bi bi-trash-fill"></i> -->
+            <button class="btn btn"  data-bs-toggle="modal" data-bs-target="#updatePatient" (click)="loadPatient(patient)"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn"  data-bs-toggle="modal" data-bs-target="#deletePatient" (click)="loadPatient(patient)"><i class="bi bi-trash-fill" style="color: red;"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Register PET or PATIENT -->
+<div class="modal fade " id="addPatient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Mascota</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mdcontainer" style="display: flex;flex-direction: column;gap:10px">
+        <div class="testr_container" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+          <label class="form-label">Nombre<input type="text" [(ngModel)]="patientAdd.name" class="form-control" placeholder="Nombre"></label>
+          <label class="form-label">Tamaño
+            <select class="form-select" (change)="selectionSize($event)">
+              <option selected>Seleccione Tamaño</option>
+              <option *ngFor="let dt  of sizeList" value={{dt.id}}>{{dt.name}}</option>
+            </select>
+          </label>
+          <label class="form-label">Tipo de Raza
+            <select class="form-select" (change)="selectionBreed($event)">
+              <option selected>Seleccione Raza</option>
+              <option *ngFor="let dt  of breedList" value={{dt.id}}>{{dt.name}}</option>
+            </select>
+          </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+            <label class="form-label">Peso
+              <input type="text" [(ngModel)]="patientAdd.weight" class="form-control" placeholder="Peso">
+            </label>
+            <label class="form-label">Fecha de Nacimiento
+              <input type="date" min="1950-01-01" max="2023-07-24" [(ngModel)]="patientAdd.birthdate" class="form-control" placeholder="Fecha de Nacimiento">
+            </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+          <label class="form-label">Sexo
+            <input type="text" [(ngModel)]="patientAdd.sex" class="form-control" placeholder="Sexo">
+          </label>
+          <label class="form-label">Ingresa URL de Foto
+            <!-- <input type="file" accept="image/*" (change)="selectionImg($event)" class="form-control" placeholder="Foto"> -->
+            <input type="text" [(ngModel)]="patientAdd.photo" class="form-control" placeholder="Foto">
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"  (click)="patientRegister()" data-bs-dismiss="modal">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Edit Patient -->
+<div class="modal fade " id="updatePatient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Mascota</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mdcontainer" style="display: flex;flex-direction: column;gap:10px">
+        <div class="testr_container" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+          <label class="form-label">Nombre<input type="text" [(ngModel)]="loadPatients.name" class="form-control" placeholder="Nombre"></label>
+          <label class="form-label">Tamaño
+            <select class="form-select" (change)="selectionSize($event)">
+              <option selected>Seleccione Tamaño</option>
+              <option *ngFor="let dt  of sizeList" value={{dt.id}} [selected]="loadPatients.tamano==dt.name">{{dt.name}}</option>
+            </select>
+          </label>
+          <label class="form-label">Tipo de Raza
+            <select class="form-select" (change)="selectionBreed($event)">
+              <option selected>Seleccione Raza</option>
+              <option *ngFor="let dt  of breedList" value={{dt.id}}  [selected]="loadPatients.breed==dt.name">{{dt.name}}</option>
+            </select>
+          </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+            <label class="form-label">Peso
+              <input type="text" [(ngModel)]="loadPatients.weight" class="form-control" placeholder="Peso">
+            </label>
+            <label class="form-label">Fecha de Nacimiento
+              <input type="date" min="1950-01-01" max="2023-07-24" [(ngModel)]="loadPatients.birthdate" class="form-control" placeholder="Fecha de Nacimiento">
+            </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+          <label class="form-label">Sexo
+            <input type="text" [(ngModel)]="loadPatients.sex" class="form-control" placeholder="Sexo">
+          </label>
+          <label class="form-label">Ingresa URL de Foto
+            <!-- <input type="file" accept="image/*" (change)="selectionImg($event)" class="form-control" placeholder="Foto"> -->
+            <input type="text" [(ngModel)]="loadPatients.photo" class="form-control" placeholder="Foto">
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"  (click)="patientEdit()" data-bs-dismiss="modal">Editar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="deletePatient" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Eliminar a <img src="{{loadPatients.photo}}" alt="" height="36">{{loadPatients.name}}</h4>
+          </div>
+          <div class="modal-body">
+              <label>¿Estás seguro de eliminar el registro?</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" (click)="deletePatient()" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+          </div>
+      </div>
+  </div>
+</div>

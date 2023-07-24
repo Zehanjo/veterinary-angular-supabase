@@ -1,0 +1,177 @@
+<!-- List of History Clinic DONE -->
+<div class="" >
+  <div class="header">
+    <div>
+      <h1 class="page-header">
+        Dueños de Mascota
+      </h1>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOwner" data-backdrop="false">
+        Registrar Dueño
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body table-responsive tablecontainer">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nro</th>
+          <th>Nombre</th>
+          <th>Nro Celular</th>
+          <th>Correo</th>
+          <th>Direccion</th>
+          <th>Referencia</th>
+          <th>Nro Documento</th>
+          <th>Tipo de Documento</th>
+          <th>Opcion</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let po of petOwnerList; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{po.firstname +" "+ po.lastname}}</td>
+          <td>{{po.phone}}</td>
+          <td>{{po.gmail}}</td>
+          <td>{{po.address}}</td>
+          <td>{{po.reference}}</td>
+          <td>{{po.nr_document}}</td>
+          <td>{{po.name_type_document}}</td>
+          <td>
+            <!-- <i class="bi bi-pencil-square"></i>
+            <i class="bi bi-trash-fill"></i> -->
+            <button class="btn btn" (click)="loadPetOwner(po)" data-bs-toggle="modal" data-bs-target="#updatePetOwner"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn" (click)="loadPetOwner(po)" data-bs-toggle="modal" data-bs-target="#deletePetOwner"><i class="bi bi-trash-fill" style="color: red;"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Register PetOwner -->
+<div class="modal fade " id="addOwner" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Dueño</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mdcontainer" style="display: flex;flex-direction: column;gap:10px">
+        <div class="" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+            <label class="form-label">Apellidos
+            <div style="display: flex ; gap:15px;justify-content: space-between;">
+              <input type="text" [(ngModel)]="petOwnerAdd.lastname" class="form-control" placeholder="Paterno" >
+              <input type="text" [(ngModel)]="petOwnerAdd.mother_lastname" class="form-control" placeholder="Materno">
+            </div></label>
+            <label class="form-label">Nombres
+              <input type="text" [(ngModel)]="petOwnerAdd.firstname" class="form-control" placeholder="Nombre">
+            </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+            <label class="form-label">Nro Celular
+              <input type="text" [(ngModel)]="petOwnerAdd.phone" class="form-control" placeholder="Celular">
+            </label>
+            <label class="form-label">Correo
+              <input type="text" [(ngModel)]="petOwnerAdd.gmail" class="form-control" placeholder="Correo">
+            </label>
+            <label class="form-label">Dirección
+              <input type="text" [(ngModel)]="petOwnerAdd.address" class="form-control" placeholder="Direccion">
+            </label>
+        </div>
+        <div class="testr_container" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+            <label class="form-label">Referencia<input type="text" [(ngModel)]="petOwnerAdd.reference" class="form-control" placeholder="Nombre"></label>
+            <label class="form-label">Nro Documento<input type="text" [(ngModel)]="petOwnerAdd.nr_document" class="form-control" placeholder="Nombre"></label>
+            <label class="form-label">Tipo de Documento
+              <select class="form-select" (change)="selectionDocumentType($event)">
+                <option selected>Seleccione Documento</option>
+                <option *ngFor="let dt  of documentTypeList" value={{dt.id}}>{{dt.name}}</option>
+              </select>
+            </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal" (click)="petOwnerRegister()">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update PetOwner -->
+<div class="modal fade " id="updatePetOwner" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Dueño</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mdcontainer" style="display: flex;flex-direction: column;gap:10px">
+        <div class="" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+            <label class="form-label">Apellidos
+            <div style="display: flex ; gap:15px;justify-content: space-between;">
+              <input type="text" [(ngModel)]="loadPetOwnerData.lastname" class="form-control" placeholder="Paterno" >
+              <input type="text" [(ngModel)]="loadPetOwnerData.mother_lastname" class="form-control" placeholder="Materno">
+            </div></label>
+            <label class="form-label">Nombres
+              <input type="text" [(ngModel)]="loadPetOwnerData.firstname" class="form-control" placeholder="Nombre">
+            </label>
+        </div>
+        <div class="" style="display: flex;gap:15px; justify-content: center;">
+            <label class="form-label">Nro Celular
+              <input type="text" [(ngModel)]="loadPetOwnerData.phone" class="form-control" placeholder="Celular">
+            </label>
+            <label class="form-label">Correo
+              <input type="text" [(ngModel)]="loadPetOwnerData.gmail" class="form-control" placeholder="Correo">
+            </label>
+            <label class="form-label">Dirección
+              <input type="text" [(ngModel)]="loadPetOwnerData.address" class="form-control" placeholder="Direccion">
+            </label>
+        </div>
+        <div class="testr_container" style="display: flex;gap:15px; justify-content: center;width: 100%;">
+            <label class="form-label">Referencia<input type="text" [(ngModel)]="loadPetOwnerData.reference" class="form-control" placeholder="Nombre"></label>
+            <label class="form-label">Nro Documento<input type="text" [(ngModel)]="loadPetOwnerData.nr_document" class="form-control" placeholder="Nombre"></label>
+            <label class="form-label">Tipo de Documento
+              <select class="form-select"  (change)="selectionDocumentType($event)">
+                <!-- <option selected>Seleccione Documento</option> -->
+                <option *ngFor="let dt  of documentTypeList" value={{dt.id}} [selected]="loadPetOwnerData.name_type_document==dt.name">{{dt.name}}</option>
+              </select>
+            </label>
+        </div>
+        <!-- <select class="form-select" (change)="selectionPatient($event)">
+          <option selected>Seleccione Paciente</option>
+          <option *ngFor="let patient  of patientList" value={{patient.id}}>{{patient.name}}</option>
+        </select>
+        <select class="form-select" (change)="selectionPetOwner($event)">
+          <option selected>Seleccione Dueño</option>
+          <option *ngFor="let petOwner  of petOwnerList" value={{petOwner.id}}>{{petOwner.firstname +" "+petOwner.lastname}}</option>
+        </select> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"  (click)="petOwnerEdit()" data-bs-dismiss="modal">Editar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete PetOwner -->
+
+<div class="modal fade" id="deletePetOwner" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Eliminar a {{loadPetOwnerData.firstname +" "+loadPetOwnerData.lastname}}</h4>
+          </div>
+          <div class="modal-body">
+              <label>¿Estás seguro de eliminar el registro?</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" (click)="petOwnerDelete()" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+          </div>
+      </div>
+  </div>
+</div>

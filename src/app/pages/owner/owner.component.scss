@@ -1,0 +1,61 @@
+.test333{
+  z-index: 10;
+}
+
+td img {
+  width: 36px;
+  height: 36px;
+  margin-right: .5rem;
+  border-radius: 50%;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+
+.tablecontainer{
+  margin-top: 30px;
+  border-radius: 5px;
+  // background-color: red;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+td {
+  vertical-align: middle;
+}
+
+
+
+// Internment
+
+.sub_title{
+  padding-top: 30px;
+  font-weight: Bold;
+  font-size: 18px;
+}
+
+.interment_body{
+  display: flex;
+  // justify-content: space-between;
+
+  img{
+    height: 50px;
+    width: 50px;
+    border-radius: 10%;
+    vertical-align: middle;
+    object-fit: cover;
+  }
+}
+
+label{
+  width: 100%;
+}
+
+.mdcontainer input{
+  width: 100%;
+}
+

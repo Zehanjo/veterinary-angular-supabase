@@ -1,0 +1,9 @@
+export const ALLERGIES = "ALLERGIES";
+export const BREED = "BREED";
+export const CLINIC_HISTORY = "CLINIC_HISTORY";
+export const DOCUMENT_TYPE = "DOCUMENT_TYPE";
+export const INTERNMENT = "INTERNMENT";
+export const PATIENT = "PATIENT";
+export const PET_OWNER = "PET_OWNER";
+export const SIZE = "SIZE";
+export const VACCINE = "VACCINE";
